@@ -17,8 +17,8 @@ means no effort will be made to filter on that specific property.
 const ni = require('network-interfaces');
 
 const options = {
-    internal: false,  // boolean: only acknowledge internal or external addresses (undefined: both)
-    ipVersion: 4      // integer (4 or 6): only acknowledge addresses of this IP address family (undefined: both)
+  internal: false, // boolean: only acknowledge internal or external addresses (undefined: both)
+  ipVersion: 4     // integer (4 or 6): only acknowledge addresses of this IP address family (undefined: both)
 };
 ```
 
@@ -40,18 +40,19 @@ const ips = ni.toIps('eth0', options);
 
 **IP address to interface name**
 
-Returns a network interface name for the given IP address.
+Returns a network interface name for the given IP address. Throws if none can be found.
 
 ```js
-const interfaceName = fromIp('127.0.0.1', options);
+const interfaceName = ni.fromIp('127.0.0.1', options);
 ```
 
 **Getting all interface names**
 
-Returns all network interface names that contain at least one IP address that matches the given options.
+Returns all network interface names that contain at least one IP address that matches the given options. Returns empty
+array if none can be found.
 
 ```js
-const interfaceNames = getInterfaces(options);
+const interfaceNames = ni.getInterfaces(options);
 ```
 
 ## License
