@@ -78,8 +78,8 @@ exports.toIps = function (interfaceName, options) {
  *
  * @param {string} ip
  * @param {Object} [options]
- * @param {boolean} [options.internal]   If given, returns only internal addresses if true, or only external if false
- * @param {integer} [options.ipVersion]  If given, returns only addresses who match this IP version (4 or 6)
+ * @param {boolean} [options.internal]   If given, only evaluates internal addresses if true, or only external if false
+ * @param {integer} [options.ipVersion]  If given, only evaluates addresses who match this IP version (4 or 6)
  * @returns {string}                     The interface name that the given IP is bound to
  */
 exports.fromIp = function (ip, options) {
@@ -99,11 +99,33 @@ exports.fromIp = function (ip, options) {
 
 
 /**
+ * Returns the first network interface name that contains at least one IP address that matches the given options
+ *
+ * @param {Object} [options]
+ * @param {boolean} [options.internal]   If given, only evaluates internal addresses if true, or only external if false
+ * @param {integer} [options.ipVersion]  If given, only evaluates addresses who match this IP version (4 or 6)
+ * @returns {string}                     The matching interface name
+ */
+exports.getInterface = function (options) {
+	const interfaces = os.networkInterfaces();
+	const interfaceNames = Object.keys(interfaces);
+
+	for (const interfaceName of interfaceNames) {
+		if (findAddresses(interfaceName, options).length > 0) {
+			return interfaceName;
+		}
+	}
+
+	throw new Error(`No suitable interfaces were found`);
+};
+
+
+/**
  * Returns all network interface names that contain at least one IP address that matches the given options
  *
  * @param {Object} [options]
- * @param {boolean} [options.internal]   If given, returns only internal addresses if true, or only external if false
- * @param {integer} [options.ipVersion]  If given, returns only addresses who match this IP version (4 or 6)
+ * @param {boolean} [options.internal]   If given, only evaluates internal addresses if true, or only external if false
+ * @param {integer} [options.ipVersion]  If given, only evaluates addresses who match this IP version (4 or 6)
  * @returns {string[]}                   The matching interface names
  */
 exports.getInterfaces = function (options) {

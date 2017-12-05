@@ -46,6 +46,15 @@ Returns a network interface name for the given IP address. Throws if none can be
 const interfaceName = ni.fromIp('127.0.0.1', options);
 ```
 
+**Getting one interface name**
+
+Returns the first network interface name that contains at least one IP address that matches the given options. Throws
+if none can be found.
+
+```js
+const interfaceName = ni.getInterface(options);
+```
+
 **Getting all interface names**
 
 Returns all network interface names that contain at least one IP address that matches the given options. Returns empty
